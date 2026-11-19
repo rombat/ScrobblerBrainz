@@ -266,6 +266,7 @@ namespace MusicBeePlugin
                     artist = HttpUtility.JavaScriptStringEncode(mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Artist));
                     track = HttpUtility.JavaScriptStringEncode(mbApiInterface.NowPlaying_GetFileTag(MetaDataType.TrackTitle));
                     release = HttpUtility.JavaScriptStringEncode(mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Album));
+                    duration_ms = mbApiInterface.NowPlaying_GetDuration();
                     trackMbidJson = GenerateMbidJson();
 
                     // Get the current playcount to see if it changes or if the song was skipped.
