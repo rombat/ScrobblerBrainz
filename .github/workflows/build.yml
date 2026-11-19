@@ -1,0 +1,46 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch, tag or commit to build (defaults to the selected branch)
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+
+      - uses: microsoft/setup-msbuild@v3
+
+      - name: Restore NuGet packages
+        run: msbuild ScrobblerBrainz.sln -t:Restore -p:RestorePackagesConfig=true
+
+      # The post-build event copies the DLLs to the original author's local MusicBee folder.
+      - name: Build
+        run: msbuild ScrobblerBrainz.csproj -p:Configuration=Release -p:PostBuildEvent=
+
+      - name: Package
+        run: Compress-Archive -Path bin\Release\mb_ScrobblerBrainz.dll, bin\Release\TagLibSharp.dll -DestinationPath mb_ScrobblerBrainz.zip
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: mb_ScrobblerBrainz
+          path: mb_ScrobblerBrainz.zip
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: gh release create $env:GITHUB_REF_NAME mb_ScrobblerBrainz.zip --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
