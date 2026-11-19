@@ -2,11 +2,12 @@
 A MusicBee plug-in to scrobble tracks to ListenBrainz.
 
 > **This is a maintained fork of [karaluh/ScrobblerBrainz](https://github.com/karaluh/ScrobblerBrainz)**, which hasn't been updated since 2024.
-> Version 2.0.2 fixes:
+> Version 2.0.3 fixes:
 > - ListenBrainz blocking the plugin (and your IP) because it sent no User-Agent ([#24](https://github.com/karaluh/ScrobblerBrainz/issues/24)).
 > - Listens getting the MusicBrainz IDs of another track, or none ([#25](https://github.com/karaluh/ScrobblerBrainz/issues/25)).
 > - The first listen after MusicBee starts being rejected by ListenBrainz.
 > - Listens being rejected by ListenBrainz because of a malformed MusicBrainz ID tag.
+> - Listens that failed to send (for example while ListenBrainz is overloaded) waiting for the next MusicBee start.
 >
 > Still on 1.x? Versions before 2.0.0 never send MusicBrainz IDs, so ListenBrainz has to guess which recording you played. Upgrade to link your listens to your tags.
 

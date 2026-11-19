@@ -46,7 +46,7 @@ namespace MusicBeePlugin
             // Plugin version:
             about.VersionMajor = 2;
             about.VersionMinor = 0;
-            about.Revision = 2;
+            about.Revision = 3;
 
             about.Name = "ScrobblerBrainz";
             about.Description = "A scrobbler for ListenBrainz service, version " + about.VersionMajor + "." + about.VersionMinor + "." + about.Revision;
